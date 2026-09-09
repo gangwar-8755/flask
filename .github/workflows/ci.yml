@@ -1,10 +1,7 @@
-name: Flask CI
+name: Flask CI-CD
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
     branches:
       - main
 
@@ -14,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -30,5 +28,14 @@ jobs:
       - name: Run tests
         run: pytest
 
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Build Docker image
-        run: docker build -t flaskapp-web .
+        run: docker build -t kajal1318/flaskapp:latest .
+
+      - name: Push Docker image
+        run: docker push kajal1318/flaskapp:latest
