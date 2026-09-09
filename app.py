@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-import database
+from database import get_db_connection
 
 app = Flask(__name__)
 
@@ -148,4 +148,4 @@ def delete_employee(id):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)
